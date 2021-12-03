@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/capstone-prelimn/node_modules
-/capstone-prelimn/public
+/capstone-prelimb/node_modules
+/capstone-prelimb/public
 /node_modules
 /.pnp
 .pnp.js
