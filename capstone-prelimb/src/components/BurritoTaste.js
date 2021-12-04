@@ -15,7 +15,8 @@ function BurritoTaste() {
   }
 
   if (signInCheckResult.signedIn === true) {
-    return  <p>The burrito is {yummy ? 'good' : 'bad'}!</p>;
+    console.log(yummy)
+    return  <p>The burrito is {yummy.yummy ? 'good' : 'bad'}!</p>;
   } else {
     return <SignInForm />;
   }
