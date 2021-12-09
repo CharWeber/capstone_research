@@ -1,8 +1,9 @@
-import React from "react";
+
 import {  getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth'
 import {FirestoreProvider, useFirebaseApp, AuthProvider} from 'reactfire';
-import BurritoTaste from "./BurritoTaste";
+import MainRouter from './MainRouter'
+
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
   return (
     <AuthProvider sdk={auth}>
       <FirestoreProvider sdk={firestoreInstance}>
-          <BurritoTaste />
+          <MainRouter />
       </FirestoreProvider>
     </AuthProvider>
   );
