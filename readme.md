@@ -1,4 +1,20 @@
-TO-DO
+12/10 work notes
+
+* morning
+  * started day with trouble adding docs to firestore
+      * resolved by looking at Firestore docs (updated add methods in new versions of firebase/firestore)
+   * started looking at MUI
+      * implemented MUI buttons and grid systems, THis will be the way I format my site I think.
+* afternoon
+   * started researching Hooks
+      * I hadn't implemented any hooks yet so while working on User Account Routing I decided to try some. worked out great!
+   * working on component map
+      * now my basic routing layout and user auth system is mostly in place. I should be able to focus on the unique sections of the website.
+
+
+<hr>
+
+1st capstone day
 
 1. connect react fire
  
