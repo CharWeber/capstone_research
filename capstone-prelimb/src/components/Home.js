@@ -1,24 +1,34 @@
 import React from "react";
 import { getAuth } from 'firebase/auth'
-import { collection } from 'firebase/firestore';
-import {  getFirestore } from 'firebase/firestore';
-import { useFirestore, useFirestoreCollectionData} from 'reactfire';
+import { getDatabase} from "firebase/database";
+import { collection, doc, addDoc, deleteDoc } from 'firebase/firestore';
+import { useFirestore, useFirestoreCollectionData, useFirebaseApp} from 'reactfire';
 
 
-export default function Home() {
+export default function Home(props) {
   const auth = getAuth();
-  const firestore = getFirestore()
+  const db = getDatabase()
   const itemsRef = collection(useFirestore(), 'items');
   const {data, status} = useFirestoreCollectionData(itemsRef);
   
-  console.log(firestore)
+  console.log(db)
   const doAddItem = async () =>{
     try{
-      await firestore.collection().set({name: new Date().getTime() + "-NAME"})
+      await addDoc(itemsRef, {name: new Date().getTime() + "-NAME"})
     } catch(e){
       alert("Error " + e.message)
     }
   }
+
+  const doDeleteItem = async (id) => {
+    try{
+      await deleteDoc(doc(itemsRef, id))
+    } catch (e){
+      alert('Error ' + e.message)
+    }
+  }
+
+
   return(
     <div>
       <p>this is the homepage for {auth.currentUser.email}</p>
@@ -30,7 +40,10 @@ export default function Home() {
       <div>
         {status === 'loading' ? <div>loading...</div> : null}
         {data?.map(d => (
-          <div key={d.NO_ID_FIELD}>{d.name}</div>
+          <div>
+            <div key={d.NO_ID_FIELD}>{d.name}</div>
+            <p><button onClick={ async () => doDeleteItem(d.NO_ID_FIELD)}>DELETE</button></p>
+          </div>
           ))}
       </div>
     </div>
