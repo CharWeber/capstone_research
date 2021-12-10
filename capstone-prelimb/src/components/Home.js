@@ -1,12 +1,10 @@
 import React from "react";
-import { getAuth } from 'firebase/auth'
 import Button from '@mui/material/Button'
 import { collection, doc, addDoc, deleteDoc } from 'firebase/firestore';
 import { useFirestore, useFirestoreCollectionData} from 'reactfire';
 
 
 export default function Home() {
-  const auth = getAuth();
   const itemsRef = collection(useFirestore(), 'items');
   const {data, status} = useFirestoreCollectionData(itemsRef);
   
@@ -29,8 +27,7 @@ export default function Home() {
 
   return(
     <div>
-      <p>this is the homepage for {auth.currentUser.email}</p>
-      <button onClick={async () => await auth.signOut()}>LogOut</button>
+      <p>this is the homepage</p>
       <div>
       <Button variant='outlined' onClick={async () => doAddItem()}>Add Item </Button>
       </div>

@@ -1,31 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import SignInForm from "./SignInForm";
+import { Container } from "@mui/material";
 import Home from "./Home";
-import {useSigninCheck} from 'reactfire';
+
 import Navbar from "./Navbar";
+import User from "./User";
 
 
 export default function MainRouter(){
 
-  const {status, data: signInCheckResult} = useSigninCheck();
-
-  
-  if(status === 'loading'){
-    return <span> Loading...</span>
-  }
-
-  if (signInCheckResult.signedIn === true){
     return(
       <Router>
       <Navbar />
-      <Routes>
-        <Route path='/signIn' element={<SignInForm/>} />
-        <Route path='/' element={<Home/>} />
-      </Routes>
+      <Container maxwidth='lg'>
+        <Routes>
+          <Route path='/user' element={<User/>} />
+          <Route path='/' element={<Home/>} />
+        </Routes>
+      </Container>
     </Router>
   )
-} else {
-  return <SignInForm />
+
 }
-}
+
