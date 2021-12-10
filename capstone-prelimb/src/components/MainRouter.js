@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SignInForm from "./SignInForm";
 import Home from "./Home";
 import {useSigninCheck} from 'reactfire';
+import Navbar from "./Navbar";
 
 
 export default function MainRouter(){
@@ -17,7 +18,7 @@ export default function MainRouter(){
   if (signInCheckResult.signedIn === true){
     return(
       <Router>
-      {/* <Header /> */}
+      <Navbar />
       <Routes>
         <Route path='/signIn' element={<SignInForm/>} />
         <Route path='/' element={<Home/>} />

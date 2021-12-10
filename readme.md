@@ -17,6 +17,8 @@ TO-DO
 
 4. try out different components in reactfire
 
+<strong>done</strong>  12/10 work starts here!
+
 
 6. make a component map for MVP
 
