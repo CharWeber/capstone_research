@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import App from './components/App';
 import {FirebaseAppProvider} from 'reactfire';
+import './index.css';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
