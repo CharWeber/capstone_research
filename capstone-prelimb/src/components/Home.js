@@ -32,7 +32,7 @@ export default function Home() {
       <Button variant='outlined' onClick={async () => doAddItem()}>Add Item </Button>
       <br/>
       <br/>
-      <Grid container spacing={2} rowHeight={500}>
+      <Grid container spacing={2} >
 
           {status === 'loading' ? <div>loading...</div> : null}
           {data?.map(d => (

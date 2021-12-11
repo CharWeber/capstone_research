@@ -10,6 +10,14 @@
       * I hadn't implemented any hooks yet so while working on User Account Routing I decided to try some. worked out great!
    * working on component map
       * now my basic routing layout and user auth system is mostly in place. I should be able to focus on the unique sections of the website.
+   * also watching react videos
+      * https://www.youtube.com/watch?v=f687hBjwFcM
+      * https://www.youtube.com/watch?v=xOVqoVuY-5M
+         * this series basically got my feet on the ground. It was pretty but of date but I was able to reference the docs and get it started. the process to set up an emulated env is the same but I didn't think I needed to test that. Its admittedly pretty easy. also picked up some nice clean code tricks (like conditionals in variables themselves 'e.g. {user.data?.email})
+* EOD
+   * watched more videos
+   * set up routes and control files for later. Next is to start implementing a facility List similar to the one in C# projects. that will be only acessible to staff if I can get user authorization to work. thats a tretch goal though. After setting up some facilities, then its setting up a calender to keep track of, but mostly display,  reservations for said facilities. Tennis will be the first focus, and then a craft barn with some other features, and maybe a theatre if I get real lucky and cruise through this.
+
 
 
 <hr>

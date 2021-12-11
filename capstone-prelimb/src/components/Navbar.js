@@ -29,7 +29,6 @@ if (signInCheckResult.signedIn === true){
     <IconButton href='/user' aria-label="fingerprint" color='secondary'>
       <Fingerprint />
     </IconButton>
-    <span style={{paddingTop:'10px'}}>sign in</span>
   </div>
 }
 

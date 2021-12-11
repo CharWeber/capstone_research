@@ -14,6 +14,9 @@ export default function MainRouter(){
       <Navbar />
       <Container maxwidth='lg'>
         <Routes>
+          {/* <Route path='/facility' element={<FacilityControl />} />
+          <Route path='/craft' element={<CraftControl />} />
+          <Route path='/athletic' element={<AthleticControl />} /> */}
           <Route path='/user' element={<User/>} />
           <Route path='/' element={<Home/>} />
         </Routes>
