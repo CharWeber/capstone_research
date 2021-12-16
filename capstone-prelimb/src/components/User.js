@@ -12,6 +12,7 @@ export default function User(){
   
   const user = useUser();
   const {status, data: SignInCheckResult} = useSigninCheck();
+
   if (status === 'loading'){
     return <span>Loading...</span>
   }

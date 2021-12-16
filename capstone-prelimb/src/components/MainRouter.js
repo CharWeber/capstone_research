@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container } from "@mui/material";
 import Home from "./Home";
+import FacilityControl from "./FacilitiesComponents/FacilityControl";
 
 import Navbar from "./Navbar";
 import User from "./User";
@@ -14,8 +15,8 @@ export default function MainRouter(){
       <Navbar />
       <Container maxwidth='lg'>
         <Routes>
-          {/* <Route path='/facility' element={<FacilityControl />} />
-          <Route path='/craft' element={<CraftControl />} />
+          <Route path='/facility' element={<FacilityControl />} />
+          {/* <Route path='/craft' element={<CraftControl />} />
           <Route path='/athletic' element={<AthleticControl />} /> */}
           <Route path='/user' element={<User/>} />
           <Route path='/' element={<Home/>} />

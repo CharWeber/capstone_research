@@ -36,7 +36,7 @@ export default function Home() {
 
           {status === 'loading' ? <div>loading...</div> : null}
           {data?.map(d => (
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <div key={d.NO_ID_FIELD}>{d.name}</div>
               <div><Button variant='outlined' onClick={ async () => doDeleteItem(d.NO_ID_FIELD)}>DELETE</Button></div>
             </Grid>

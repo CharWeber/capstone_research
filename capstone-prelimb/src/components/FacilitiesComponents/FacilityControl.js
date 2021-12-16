@@ -1,8 +1,11 @@
 
 import React from 'react';
+import FacilityList from './FacilityList';
 
 export default function FacilityControl(){
   return(
-    <div></div>
+    <div>
+      <FacilityList />
+    </div>
   )
 }
