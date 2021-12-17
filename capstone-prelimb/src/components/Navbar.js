@@ -38,6 +38,7 @@ export default function Navbar() {
   return (
     <Stack direction="row" spacing={2}>
       <Button href="/">Home</Button>
+      <Button href="/athletics">Athletics</Button>
 
       {userInfo}
     </Stack>

@@ -6,7 +6,8 @@ import {
   useFirestoreCollectionData,
   useSigninCheck,
 } from "reactfire";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import CalendarShell from "../UtilityComponents/CalendarShell";
 
 export default function FacilityList() {
   const dataRef = collection(useFirestore(), "facilities");
@@ -17,6 +18,10 @@ export default function FacilityList() {
   const [facilityForm, setFacilityForm] = useState(false);
 
   let formVisible = null;
+  let events = []
+
+  const q = query(dataRef, where('department', '==', 'athletic'))
+    getDocs(q).then(querySnapshot => querySnapshot.forEach((doc) => events.push(doc.data())))
 
   if (status2 === "loading") {
     return <div>Loading...</div>;
@@ -75,6 +80,7 @@ export default function FacilityList() {
       {data?.map((d) => {
         return <Facility key={d.NO_ID_FIELD} name={d.name} />;
       })}
+    <CalendarShell />
     </div>
   );
 }
