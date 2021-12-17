@@ -11,6 +11,7 @@ import { collection } from "firebase/firestore";
 export default function AthleticControl(){
   const facilityRef = collection(useFirestore(), 'facilities')
   const {data, status} = useFirestoreCollectionData(facilityRef);
+  console.log(data)
 
   
   return(
@@ -19,7 +20,7 @@ export default function AthleticControl(){
       {data?.map(d => {
         return <Facility key={d.NO_ID_FIELD} name={d.name}/>
       })}
-      <CalendarShell facilityId={'RgVqbsYcFb5R7fqataS9'} />
+      <CalendarShell  />
     </div>
   )
 }
