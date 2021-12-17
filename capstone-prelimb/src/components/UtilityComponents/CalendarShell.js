@@ -24,11 +24,7 @@ const localizer = dateFnsLocalizer({
 
 export default function CalendarShell(props) {
   const { facilityId } = props;
-
   const user = useUser();
-  const dataRef = collection(useFirestore(), "reservations");
-  const { status, data } = useFirestoreCollectionData(dataRef);
-
   const [resForm, setResForm] = useState(false);
   const [newReservation, setNewReservation] = useState({
     title: "",
@@ -37,6 +33,10 @@ export default function CalendarShell(props) {
     createdBy: user.data ? user.data.uid : null,
     facility: facilityId ? facilityId : "general",
   });
+
+  const dataRef = collection(useFirestore(), "reservations");
+  const { status, data } = useFirestoreCollectionData(dataRef);
+
 
   let events = [];
   let buttonOptions = null;
@@ -50,8 +50,19 @@ export default function CalendarShell(props) {
     getDocs(q).then((querySnapshot) =>
       querySnapshot.forEach((doc) => events.push(doc.data()))
     );
+    console.log(events)
   } else {
     events = data;
+  }
+  const handleResetForm = () => {
+    setResForm(false);
+    setNewReservation({
+      title: "",
+      start: "",
+      end: "",
+      createdBy: user.data ? user.data.uid : null,
+      facilityId: facilityId ? facilityId : "general",
+    })
   }
 
   const doAddReservation = async () => {
@@ -60,14 +71,10 @@ export default function CalendarShell(props) {
     } catch (e) {
       alert("Error: " + e.message);
     }
+    handleResetForm();
   };
 
-  const handleChangeStartTime = (start) => {
-    setNewReservation(...newReservation, start)
-  }
-  const handleChangeEndTime = (end) => {
-    setNewReservation(...newReservation, end)
-  }
+
 
   if (user.data && !resForm) {
     buttonOptions = 
@@ -89,17 +96,19 @@ export default function CalendarShell(props) {
           placeholder="Add Title"
           style={{ width: "20%", marginRight: "10px" }}
           value={newReservation.title}
-          onChange={(e) =>
-            setNewReservation({ ...newReservation, title: e.target.value })
-          }
+          onChange={(e) =>setNewReservation({ ...newReservation, title: e.target.value })}
         />
         <DatePicker
           placeholderText="Start Time"
-          
+          showTimeSelect
+          selected={newReservation.start}
+          onChange={(start) => setNewReservation({...newReservation, start})}
         />
         <DatePicker
           placeholderText="End Time"
-          
+          showTimeSelect
+          selected={newReservation.end}
+          onChange={(end) => setNewReservation({...newReservation, end})}
         />
       </div>
     
