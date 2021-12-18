@@ -38,7 +38,7 @@ export default function CalendarShell(props) {
     resource: null,
   });
 
-  let events = {}
+  let events = null;
   let buttonOptions = null;
   let CalendarDisplay = null;
 
@@ -66,18 +66,24 @@ export default function CalendarShell(props) {
     });
   };
 
-  console.log(events)
   if (facilityId) {
+    let tempArray = [];
     const q = query(dataRef, where("facility", "==", facilityId));
     getDocs(q).then((querySnapshot) =>
       querySnapshot.forEach((doc) => {
-        doc.start.get().toDate();
-        doc.end.get().toDate();
-        console.log(doc.end.toDate())
-        events.concat(doc.data())
+        const reservation = {
+          title: doc.data().title,
+          start: doc.data().start.toDate(),
+          end: doc.data().end.toDate(),
+          createdBy: doc.data().createdBy,
+          facility: doc.data().facility,
+          resource: doc.data().resource,
+        };
+        tempArray.push(reservation);
       })
     );
-    CalendarDisplay = 
+    events = tempArray;
+    CalendarDisplay = (
       <Calendar
         localizer={localizer}
         events={events}
@@ -87,10 +93,23 @@ export default function CalendarShell(props) {
         allDayAccessor="allDay"
         style={{ height: 500, margin: "50px" }}
       />
-      console.log(events)
-    } else {
-    events = data;
-    CalendarDisplay = 
+    );
+  } else {
+    console.log(data);
+    let tempArray = [];
+    data.forEach((doc) => {
+      const reservation = {
+        title: doc.title,
+        start: doc.start.toDate(),
+        end: doc.end.toDate(),
+        createdBy: doc.createdBy,
+        facility: doc.facility,
+        resource: doc.resource,
+      };
+      tempArray.push(reservation);
+    });
+    events = tempArray;
+    CalendarDisplay = (
       <Calendar
         localizer={localizer}
         events={events}
@@ -98,9 +117,9 @@ export default function CalendarShell(props) {
         endAccessor="end"
         titleAccessor="title"
         allDayAccessor="allDay"
-        style={{ minHeight: 500, margin: "50px" }}
+        style={{ height: 500, margin: "50px" }}
       />
-      console.log(events)
+    );
   }
 
   if (user.data && !resForm) {
@@ -143,20 +162,11 @@ export default function CalendarShell(props) {
     );
   }
 
-
+  console.log(events);
   return (
     <div>
       {buttonOptions}
       {CalendarDisplay}
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        titleAccessor="title"
-        allDayAccessor="allDay"
-        style={{ minHeight: 500, margin: "50px" }}
-      />
     </div>
   );
 }
