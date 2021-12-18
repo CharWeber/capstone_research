@@ -1,3 +1,21 @@
+12/17 work notes
+
+* morning
+  * started day knowing I wanted to get my calander and reservation ball rolling.
+   * step 1 was to create my facilities page, stretch goal: this will only be accessible to staff or admin style users, to create facilities
+      * this was tough as a lot of my hooks thought they were in a class component instead of a functional component. Deleted node modules and reinstalled and it worked fine.
+   * step 2 is to create some sort of way to easily change whats being rendered on the calender depending on query data and stuff.
+   * many bugs ensued, lots of making sure my data is loading and rerendering with new info.
+* afternoon
+   * I had connected to firebase and was correctly storing reservations from my reservation form
+   * however I couldn't get the reservations (or events) to display on the calander
+   * turns out it was entirely firebase. When they get a date Object from a js project they convert it into a "timestamp" which JS doesn't know shit about. now whenever I query the data I have to map the data so I can reformat the timestamp back into a Date object. GEEZ FIRESTORE
+* EOD
+   * was able to get reservations correctly displaying on the calander and can add reservations to specific facilities by passing in the facility id to the calender. this should be an easy way for me to make my calander a little more generic
+   * the agenda button on my calander completely breaks my app, not sure why, I thought agenda was a paid feature anyway
+   * I just disabled the agenda view, don't want it or need it.
+
+
 12/10 work notes
 
 * morning
