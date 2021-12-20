@@ -91,7 +91,7 @@ export default function CalendarShell(props) {
         endAccessor="end"
         titleAccessor="title"
         allDayAccessor="allDay"
-        views={['month', 'day', 'week']}
+        views={['month', 'week', 'day']}
         style={{ height: 500, margin: "50px" }}
       />
     );
