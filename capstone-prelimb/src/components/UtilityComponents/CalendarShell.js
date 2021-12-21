@@ -2,11 +2,11 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { Button, Input } from "@mui/material";
+import { Button, Input, Checkbox } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
-import DatePicker from "react-datepicker";
+import DatePicker, {CalendarContainer} from "react-datepicker";
 import { collection, addDoc } from "firebase/firestore";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -21,6 +21,17 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
+const MyContainer = ({ className, children }) => {
+  return (
+    <div style={{ padding: "16px", background: "#216ba5", color: "#fff", zIndex: '2' }}>
+      <CalendarContainer className={className}>
+        <div style={{ background: "#f0f0f0" }}>
+          What is your favorite day?
+        </div>
+        <div style={{ position: "relative" }}>{children}</div>
+      </CalendarContainer>
+    </div>
+  );};
 
 export default function CalendarShell(props) {
   const { facilityId, department } = props;
@@ -40,6 +51,7 @@ export default function CalendarShell(props) {
     department: department ? department : null
   });
 
+
   useEffect(() => {
     setNewReservation({
       title: "",
@@ -55,7 +67,6 @@ export default function CalendarShell(props) {
   let events = null;
   let buttonOptions = null;
   let departmentData = null;
-  // let tempArray = [];
 
   const doAddReservation = async () => {
     try {
@@ -65,18 +76,6 @@ export default function CalendarShell(props) {
     }
     handleResetForm();
   };
-
-  if (status === "loading") {
-    return <div>loading...</div>;
-  } else {
-  }
-  
-  if (department){  
-    departmentData = data?.filter(d => d.department === department);
-  } else {
-    departmentData = data
-  }
-  console.log(departmentData)
 
   const handleResetForm = () => {
     setResForm(false);
@@ -90,51 +89,21 @@ export default function CalendarShell(props) {
     });
   };
 
+  if (status === "loading") {
+    return <div>loading...</div>;
+  }
+
+  
+  if (department){  
+    departmentData = data?.filter(d => d.department === department);
+  } else {
+    departmentData = data
+  }
+
+
   if (facilityId !== null) {
-    // let tempArray = [];
-    // const q = query(dataRef, where("facilityId", "==", facilityId));
-    // getDocs(q).then((querySnapshot) =>
-    //   // events = querySnapshot.map((doc) => {
-    //   //   return {
-    //   //     title: doc.data().title,
-    //   //     start: doc.data().start.toDate(),
-    //   //     end: doc.data().end.toDate(),
-    //   //     createdBy: doc.data().createdBy,
-    //   //     facility: doc.data().facility,
-    //   //     resource: doc.data().resource,
-    //   //   }
-    //   // })
-    //   querySnapshot.forEach((doc) => {
-    //     const reservation = doc.map({
-    //       title: doc.data().title,
-    //       start: doc.data().start.toDate(),
-    //       end: doc.data().end.toDate(),
-    //       createdBy: doc.data().createdBy,
-    //       facilityId: doc.data().facilityId,
-    //       resource: doc.data().resource,
-    //       NO_ID_FIELD: doc.NO_ID_FIELD,
-    //       allDay: doc.allDay
-    //     });
-    //     console.log(reservation)
-    //     tempArray = [...tempArray, reservation]
-    //   })
-    //   );
-    //   events = tempArray;
-    // CalendarDisplay = (
-    //   <Calendar
-    //     localizer={localizer}
-    //     events={events}
-    //     startAccessor="start"
-    //     endAccessor="end"
-    //     titleAccessor="title"
-    //     allDayAccessor="allDay"
-    //     views={["month", "week", "day"]}
-    //     style={{ height: 500, margin: "50px" }}
-    //   />
-    // );
   let tempArray = []
     const filteredData = departmentData?.filter((d) => d.facilityId === facilityId)
-    console.log(filteredData)
     filteredData.forEach((doc) => {
       const reservation = {
         title: doc.title,
@@ -148,9 +117,6 @@ export default function CalendarShell(props) {
       }
     tempArray.push(reservation)})
     events = tempArray;
-
-
-
   } else {
     let tempArray = [];
     departmentData.forEach((doc) => {
@@ -167,18 +133,6 @@ export default function CalendarShell(props) {
       tempArray.push(reservation);
     });
     events = tempArray;
-    // CalendarDisplay = (
-    //   <Calendar
-    //     localizer={localizer}
-    //     events={events}
-    //     startAccessor="start"
-    //     endAccessor="end"
-    //     titleAccessor="title"
-    //     allDayAccessor="allDay"
-    //     views={["month", "day", "week"]}
-    //     style={{ height: 500, margin: "50px" }}
-    //   />
-    // );
   }
 
   if (user.data && !resForm && facilityId) {
@@ -199,25 +153,25 @@ export default function CalendarShell(props) {
             setNewReservation({ ...newReservation, title: e.target.value })
           }
         />
-
-        <Input
-          type="checkbox"
+        <Checkbox
           name='allDay'
-          style={{ width: "20%", marginRight: "10px" }}
           value={newReservation.allDay}
-          onChange={(e) =>
+          onChange={() =>
             setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
           }
         />
         <DatePicker
+          required
           placeholderText="Start Time"
           showTimeSelect
+          calendarContainer={MyContainer}
           selected={newReservation.start}
           onChange={(start) => setNewReservation({ ...newReservation, start })}
         />
         <DatePicker
           placeholderText="End Time"
           showTimeSelect
+          calendarContainer={MyContainer}
           selected={newReservation.end}
           onChange={(end) => setNewReservation({ ...newReservation, end })}
         />
