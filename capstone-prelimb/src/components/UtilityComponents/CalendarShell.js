@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
 import DatePicker from "react-datepicker";
-import { collection, addDoc, query, getDocs, where } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -23,12 +23,11 @@ const localizer = dateFnsLocalizer({
 });
 
 export default function CalendarShell(props) {
-  const { facilityId } = props;
+  const { facilityId, department } = props;
   const user = useUser();
   const dataRef = collection(useFirestore(), "reservations");
   const { status, data } = useFirestoreCollectionData(dataRef);
 
-  
   const [resForm, setResForm] = useState(false);
   const [newReservation, setNewReservation] = useState({
     title: "",
@@ -38,6 +37,7 @@ export default function CalendarShell(props) {
     createdBy: user?.data ? user.data.uid : null,
     facilityId: facilityId ? facilityId : "general",
     resource: null,
+    department: department ? department : null
   });
 
   useEffect(() => {
@@ -45,14 +45,17 @@ export default function CalendarShell(props) {
       title: "",
       start: "",
       end: "",
+      allDay: false,
       createdBy: user.data ? user.data.uid : null,
       facilityId: facilityId ? facilityId : "general",
+      department: department ? department : null
     });
-  }, [facilityId, user]);
+  }, [facilityId, user, department]);
 
   let events = null;
   let buttonOptions = null;
-  let CalendarDisplay = null;
+  let departmentData = null;
+  // let tempArray = [];
 
   const doAddReservation = async () => {
     try {
@@ -65,7 +68,15 @@ export default function CalendarShell(props) {
 
   if (status === "loading") {
     return <div>loading...</div>;
+  } else {
   }
+  
+  if (department){  
+    departmentData = data?.filter(d => d.department === department);
+  } else {
+    departmentData = data
+  }
+  console.log(departmentData)
 
   const handleResetForm = () => {
     setResForm(false);
@@ -75,69 +86,102 @@ export default function CalendarShell(props) {
       end: "",
       createdBy: user.data ? user.data.uid : null,
       facilityId: facilityId ? facilityId : "general",
+      department: department ? department : null
     });
   };
-  
-  
-    if (facilityId) {
-      let tempArray = [];
-      const q = query(dataRef, where("facilityId", "==", facilityId));
-      getDocs(q).then((querySnapshot) =>
-        querySnapshot.forEach((doc) => {
-          const reservation = {
-            title: doc.data().title,
-            start: doc.data().start.toDate(),
-            end: doc.data().end.toDate(),
-            createdBy: doc.data().createdBy,
-            facility: doc.data().facility,
-            resource: doc.data().resource,
-          };
-          tempArray.push(reservation);
-        })
-      );
-      events = tempArray
-      CalendarDisplay = (
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          titleAccessor="title"
-          allDayAccessor="allDay"
-          views={["month", "week", "day"]}
-          style={{ height: 500, margin: "50px" }}
-        />
-      );
-    } else {
-      let tempArray = [];
-      data.forEach((doc) => {
-        const reservation = {
-          title: doc.title,
-          start: doc.start.toDate(),
-          end: doc.end.toDate(),
-          createdBy: doc.createdBy,
-          facility: doc.facility,
-          resource: doc.resource,
-        };
-        tempArray.push(reservation);
-      });
-      events = tempArray
-      CalendarDisplay = (
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          titleAccessor="title"
-          allDayAccessor="allDay"
-          views={["month", "day", "week"]}
-          style={{ height: 500, margin: "50px" }}
-        />
-      );
-    }
+
+  if (facilityId !== null) {
+    // let tempArray = [];
+    // const q = query(dataRef, where("facilityId", "==", facilityId));
+    // getDocs(q).then((querySnapshot) =>
+    //   // events = querySnapshot.map((doc) => {
+    //   //   return {
+    //   //     title: doc.data().title,
+    //   //     start: doc.data().start.toDate(),
+    //   //     end: doc.data().end.toDate(),
+    //   //     createdBy: doc.data().createdBy,
+    //   //     facility: doc.data().facility,
+    //   //     resource: doc.data().resource,
+    //   //   }
+    //   // })
+    //   querySnapshot.forEach((doc) => {
+    //     const reservation = doc.map({
+    //       title: doc.data().title,
+    //       start: doc.data().start.toDate(),
+    //       end: doc.data().end.toDate(),
+    //       createdBy: doc.data().createdBy,
+    //       facilityId: doc.data().facilityId,
+    //       resource: doc.data().resource,
+    //       NO_ID_FIELD: doc.NO_ID_FIELD,
+    //       allDay: doc.allDay
+    //     });
+    //     console.log(reservation)
+    //     tempArray = [...tempArray, reservation]
+    //   })
+    //   );
+    //   events = tempArray;
+    // CalendarDisplay = (
+    //   <Calendar
+    //     localizer={localizer}
+    //     events={events}
+    //     startAccessor="start"
+    //     endAccessor="end"
+    //     titleAccessor="title"
+    //     allDayAccessor="allDay"
+    //     views={["month", "week", "day"]}
+    //     style={{ height: 500, margin: "50px" }}
+    //   />
+    // );
+  let tempArray = []
+    const filteredData = departmentData?.filter((d) => d.facilityId === facilityId)
+    console.log(filteredData)
+    filteredData.forEach((doc) => {
+      const reservation = {
+        title: doc.title,
+        start: doc.start.toDate(),
+        end: doc.end.toDate(),
+        createdBy: doc.createdBy,
+        facilityId: doc.facilityId,
+        resource: doc.resource,
+        NO_ID_FIELD: doc.NO_ID_FIELD,
+        allDay: doc.allDay
+      }
+    tempArray.push(reservation)})
+    events = tempArray;
 
 
-  if (user.data && !resForm) {
+
+  } else {
+    let tempArray = [];
+    departmentData.forEach((doc) => {
+      const reservation = {
+        title: doc.title,
+        start: doc.start.toDate(),
+        end: doc.end.toDate(),
+        createdBy: doc.createdBy,
+        facilityId: doc.facilityId,
+        resource: doc.resource,
+        NO_ID_FIELD: doc.NO_ID_FIELD,
+        allDay: doc.allDay
+      };
+      tempArray.push(reservation);
+    });
+    events = tempArray;
+    // CalendarDisplay = (
+    //   <Calendar
+    //     localizer={localizer}
+    //     events={events}
+    //     startAccessor="start"
+    //     endAccessor="end"
+    //     titleAccessor="title"
+    //     allDayAccessor="allDay"
+    //     views={["month", "day", "week"]}
+    //     style={{ height: 500, margin: "50px" }}
+    //   />
+    // );
+  }
+
+  if (user.data && !resForm && facilityId) {
     buttonOptions = (
       <Button variant="outlined" onClick={() => setResForm(!resForm)}>
         Add Reservation
@@ -153,6 +197,16 @@ export default function CalendarShell(props) {
           value={newReservation.title}
           onChange={(e) =>
             setNewReservation({ ...newReservation, title: e.target.value })
+          }
+        />
+
+        <Input
+          type="checkbox"
+          name='allDay'
+          style={{ width: "20%", marginRight: "10px" }}
+          value={newReservation.allDay}
+          onChange={(e) =>
+            setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
           }
         />
         <DatePicker
@@ -180,7 +234,17 @@ export default function CalendarShell(props) {
   return (
     <div>
       {buttonOptions}
-      {CalendarDisplay}
+
+      <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        titleAccessor="title"
+        allDayAccessor="allDay"
+        views={["month", "day", "week"]}
+        style={{ height: 500, margin: "50px" }}
+      />
     </div>
   );
 }

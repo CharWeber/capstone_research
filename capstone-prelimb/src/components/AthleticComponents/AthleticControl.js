@@ -18,7 +18,7 @@ export default function AthleticControl(){
   return(
     <div>
       <FacilityList department="athletic" onClickFacility={handleChangeSelectedFacility}/>
-      <CalendarShell facilityId={selectedFacilityID} />
+      <CalendarShell department="athletic" facilityId={selectedFacilityID} />
     </div>
   )
 }

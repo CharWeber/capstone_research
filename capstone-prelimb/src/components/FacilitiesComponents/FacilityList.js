@@ -2,6 +2,7 @@ import React from "react";
 import Facility from "./Facility";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection } from "firebase/firestore";
+import { Button } from "@mui/material";
 
 export default function FacilityList(props) {
   const { department, onClickFacility } = props;
@@ -37,6 +38,7 @@ export default function FacilityList(props) {
           />
         );
       })}
+      <Button onClick={() => handleChangeFacility(null)}>See All Reservations</Button>
     </div>
   );
 }

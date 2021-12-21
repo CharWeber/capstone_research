@@ -59,6 +59,7 @@ export default function FacilityControl(){
           }
         >
           <option value="athletic">Athletic</option>
+          <option value="craft">Crafts</option>
           <option value="general">General Use</option>
         </select>
         <Button variant="contained" onClick={async () => handleNewFacility()}>
