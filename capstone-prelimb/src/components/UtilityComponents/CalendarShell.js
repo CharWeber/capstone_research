@@ -3,7 +3,7 @@ import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import { Button, Input } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
 import DatePicker from "react-datepicker";
@@ -27,6 +27,8 @@ export default function CalendarShell(props) {
   const user = useUser();
   const dataRef = collection(useFirestore(), "reservations");
   const { status, data } = useFirestoreCollectionData(dataRef);
+
+  
   const [resForm, setResForm] = useState(false);
   const [newReservation, setNewReservation] = useState({
     title: "",
@@ -34,9 +36,19 @@ export default function CalendarShell(props) {
     end: new Date(),
     allDay: false,
     createdBy: user?.data ? user.data.uid : null,
-    facility: facilityId ? facilityId : "general",
+    facilityId: facilityId ? facilityId : "general",
     resource: null,
   });
+
+  useEffect(() => {
+    setNewReservation({
+      title: "",
+      start: "",
+      end: "",
+      createdBy: user.data ? user.data.uid : null,
+      facilityId: facilityId ? facilityId : "general",
+    });
+  }, [facilityId, user]);
 
   let events = null;
   let buttonOptions = null;
@@ -65,64 +77,65 @@ export default function CalendarShell(props) {
       facilityId: facilityId ? facilityId : "general",
     });
   };
-
-  if (facilityId) {
-    let tempArray = [];
-    const q = query(dataRef, where("facility", "==", facilityId));
-    getDocs(q).then((querySnapshot) =>
-      querySnapshot.forEach((doc) => {
+  
+  
+    if (facilityId) {
+      let tempArray = [];
+      const q = query(dataRef, where("facilityId", "==", facilityId));
+      getDocs(q).then((querySnapshot) =>
+        querySnapshot.forEach((doc) => {
+          const reservation = {
+            title: doc.data().title,
+            start: doc.data().start.toDate(),
+            end: doc.data().end.toDate(),
+            createdBy: doc.data().createdBy,
+            facility: doc.data().facility,
+            resource: doc.data().resource,
+          };
+          tempArray.push(reservation);
+        })
+      );
+      events = tempArray
+      CalendarDisplay = (
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          titleAccessor="title"
+          allDayAccessor="allDay"
+          views={["month", "week", "day"]}
+          style={{ height: 500, margin: "50px" }}
+        />
+      );
+    } else {
+      let tempArray = [];
+      data.forEach((doc) => {
         const reservation = {
-          title: doc.data().title,
-          start: doc.data().start.toDate(),
-          end: doc.data().end.toDate(),
-          createdBy: doc.data().createdBy,
-          facility: doc.data().facility,
-          resource: doc.data().resource,
+          title: doc.title,
+          start: doc.start.toDate(),
+          end: doc.end.toDate(),
+          createdBy: doc.createdBy,
+          facility: doc.facility,
+          resource: doc.resource,
         };
         tempArray.push(reservation);
-      })
-    );
-    events = tempArray;
-    CalendarDisplay = (
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        titleAccessor="title"
-        allDayAccessor="allDay"
-        views={['month', 'week', 'day']}
-        style={{ height: 500, margin: "50px" }}
-      />
-    );
-  } else {
-    console.log(data);
-    let tempArray = [];
-    data.forEach((doc) => {
-      const reservation = {
-        title: doc.title,
-        start: doc.start.toDate(),
-        end: doc.end.toDate(),
-        createdBy: doc.createdBy,
-        facility: doc.facility,
-        resource: doc.resource,
-      };
-      tempArray.push(reservation);
-    });
-    events = tempArray;
-    CalendarDisplay = (
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        titleAccessor="title"
-        allDayAccessor="allDay"
-        views={['month', 'day', 'week']}
-        style={{ height: 500, margin: "50px" }}
-      />
-    );
-  }
+      });
+      events = tempArray
+      CalendarDisplay = (
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          titleAccessor="title"
+          allDayAccessor="allDay"
+          views={["month", "day", "week"]}
+          style={{ height: 500, margin: "50px" }}
+        />
+      );
+    }
+
 
   if (user.data && !resForm) {
     buttonOptions = (
@@ -164,7 +177,6 @@ export default function CalendarShell(props) {
     );
   }
 
-  console.log(events);
   return (
     <div>
       {buttonOptions}
