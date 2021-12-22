@@ -14,10 +14,11 @@ export default function ReservationList(props) {
     onClickReservation(id);
   };
 
+
   if (status === 'loading'){
     return <div>Loading...</div>
   }
-  console.log(user.data.uid)
+
 
 
   if (user) {

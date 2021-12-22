@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useSigninCheck, useUser } from "reactfire";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -31,6 +30,7 @@ export default function Navbar() {
         <IconButton href="/user" aria-label="fingerprint" color="secondary">
           <Fingerprint />
         </IconButton>
+        <span style={{ paddingTop: "10px" }}>Log in</span>
       </div>
     );
   }
@@ -40,7 +40,6 @@ export default function Navbar() {
       <Button href="/">Home</Button>
       <Button href="/athletics">Athletics</Button>
       <Button href="/crafts">Crafts</Button>
-
       {userInfo}
     </Stack>
   );
