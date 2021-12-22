@@ -5,9 +5,9 @@ import Home from "./Home";
 import FacilityControl from "./FacilitiesComponents/FacilityControl";
 import AthleticControl from "./AthleticComponents/AthleticControl";
 import CraftControl from "./CraftComponents/CraftControl";
-
+import UserControl from "./UserComponents/UserControl";
 import Navbar from "./Navbar";
-import User from "./User";
+
 
 
 export default function MainRouter(){
@@ -20,7 +20,7 @@ export default function MainRouter(){
           <Route path='/facility' element={<FacilityControl />} />
           <Route path='/crafts' element={<CraftControl />} />
           <Route path='/athletics' element={<AthleticControl />} />
-          <Route path='/user' element={<User/>} />
+          <Route path='/user' element={<UserControl/>} />
           <Route path='/' element={<Home/>} />
         </Routes>
       </Container>

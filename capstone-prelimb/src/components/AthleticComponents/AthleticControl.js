@@ -15,7 +15,7 @@ export default function AthleticControl(){
   }
 
   if (selectedFacilityId !== null){
-    allButton = <Button onClick={() => handleChangeSelectedFacility(null)}>See All Reservations</Button>
+    allButton = <Button variant='contained' onClick={() => handleChangeSelectedFacility(null)}>See All Reservations</Button>
   }
 
 

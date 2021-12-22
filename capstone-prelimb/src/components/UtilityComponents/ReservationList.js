@@ -21,7 +21,7 @@ export default function ReservationList(props) {
 
 
 
-  if (user) {
+  if (user.data) {
     filteredData = data?.filter((d) => d.createdBy === user.data.uid);
   } else {
     filteredData = data;

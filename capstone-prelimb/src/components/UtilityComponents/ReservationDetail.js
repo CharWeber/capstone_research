@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input, Checkbox } from "@mui/material";
-import { doc, setDoc, deleteDoc } from "firebase/firestore";
-import { useFirestore, useFirestoreDocData } from "reactfire";
+import { doc, setDoc } from "firebase/firestore";
+import { useFirestore, useFirestoreDocDataOnce } from "reactfire";
 import DatePicker, {CalendarContainer} from "react-datepicker";
 
 
@@ -21,10 +21,10 @@ const MyContainer = ({ className, children }) => {
 
 
 export default function ReservationDetail(props) {
-  const { reservationId } = props;
+  const { reservationId, handleDelete } = props;
 
   const docRef = doc(useFirestore(), "reservations", reservationId);
-  const { status, data } = useFirestoreDocData(docRef);
+  const { status, data } = useFirestoreDocDataOnce(docRef);
 
   const [IsLoaded, setIsLoaded] = useState(false);
   const [resForm, setResForm] = useState(false);
@@ -75,14 +75,11 @@ export default function ReservationDetail(props) {
       alert("Error: " + e.message);
     }
   };
-  const doDeleteReservation = async (id) =>{
-    try{
-      await deleteDoc(docRef)
-    }catch(e){
-      alert("Error: " + e.message)
-    }
 
+  const handleDeleteReservation =  (id) => {
+  handleDelete(id);
   }
+
 
 
   if (resForm) {
@@ -108,7 +105,6 @@ export default function ReservationDetail(props) {
           }
         />
         <DatePicker
-          required
           placeholderText="Start Time"
           showTimeSelect
           calendarContainer={MyContainer}
@@ -125,9 +121,6 @@ export default function ReservationDetail(props) {
         <Button variant="outlined" onClick={() => doEditReservation()}>
           Confirm Edits
         </Button>
-        <Button variant="contained" onClick={() => doDeleteReservation(reservationId)}>
-          Delete Reservation
-        </Button>
       </div>
     );
   }
@@ -140,7 +133,9 @@ export default function ReservationDetail(props) {
       {data.allDay}
       {formVisible}
       <Button onClick={() => setResForm(!resForm)}>Edit</Button>
-      {/* {buttonOptions} */}
+      <Button variant="contained" onClick={() =>handleDeleteReservation(reservationId)}>
+        Delete Reservation
+      </Button>
     </div>
   );
 }

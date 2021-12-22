@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import App from './components/App';
 import {FirebaseAppProvider} from 'reactfire';
+
 import './index.css';
 
 const firebaseConfig = {
@@ -13,6 +14,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL
 }
+
 
 render(
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>

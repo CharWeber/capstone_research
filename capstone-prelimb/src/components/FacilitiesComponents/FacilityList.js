@@ -2,6 +2,7 @@ import React from "react";
 import Facility from "./Facility";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection } from "firebase/firestore";
+import { Grid } from "@mui/material";
 
 
 export default function FacilityList(props) {
@@ -28,16 +29,20 @@ export default function FacilityList(props) {
   return (
     <div>
       {status === "loading" ? <div>loading...</div> : null}
-      {filteredData?.map((d) => {
-        return (
-          <Facility
-            key={d.NO_ID_FIELD}
-            id={d.NO_ID_FIELD}
-            name={d.name}
-            handleSelect={selectFacility}
-          />
-        );
-      })}
+      <Grid container spacing={2}>
+        {filteredData?.map((d, index) => {
+          return (
+            <Grid key={index} item xs={12}>
+                <Facility
+                  key={d.NO_ID_FIELD}
+                  id={d.NO_ID_FIELD}
+                  name={d.name}
+                  handleSelect={selectFacility}
+                />
+            </Grid>
+          );
+        })}
+      </Grid>
 
     </div>
   );
