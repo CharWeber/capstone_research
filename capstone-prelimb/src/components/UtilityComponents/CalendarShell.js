@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { Button, Input, Checkbox } from "@mui/material";
+import { Button, Input, Checkbox, Grid, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
@@ -25,9 +25,6 @@ const MyContainer = ({ className, children }) => {
   return (
     <div style={{ padding: "16px", background: "#216ba5", color: "#fff", zIndex: '2' }}>
       <CalendarContainer className={className}>
-        <div style={{ background: "#f0f0f0" }}>
-          What is your favorite day?
-        </div>
         <div style={{ position: "relative" }}>{children}</div>
       </CalendarContainer>
     </div>
@@ -137,50 +134,71 @@ export default function CalendarShell(props) {
 
   if (user.data && !resForm && facilityId) {
     buttonOptions = (
-      <Button variant="outlined" onClick={() => setResForm(!resForm)}>
-        Add Reservation
-      </Button>
+      <Box sx={{margin: 'auto', padding: '10px', textAlign: 'right'}}>
+        <Button variant="outlined" onClick={() => setResForm(!resForm)}>
+          Add Reservation
+        </Button>
+      </Box>
     );
   } else if (user.data && resForm) {
     buttonOptions = (
-      <div>
-        <Input
-          type="text"
-          placeholder="Add Title"
-          style={{ width: "20%", marginRight: "10px" }}
-          value={newReservation.title}
-          onChange={(e) =>
-            setNewReservation({ ...newReservation, title: e.target.value })
-          }
-        />
-        <Checkbox
-          name='allDay'
-          value={newReservation.allDay}
-          onChange={() =>
-            setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
-          }
-        />
-        <DatePicker
-          required
-          placeholderText="Start Time"
-          showTimeSelect
-          calendarContainer={MyContainer}
-          selected={newReservation.start}
-          onChange={(start) => setNewReservation({ ...newReservation, start })}
-        />
-        <DatePicker
-          placeholderText="End Time"
-          showTimeSelect
-          calendarContainer={MyContainer}
-          selected={newReservation.end}
-          onChange={(end) => setNewReservation({ ...newReservation, end })}
-        />
-        <Button variant="outlined" onClick={() => doAddReservation()}>
-          Confirm Reservation
-        </Button>
-        <Button variant="outlined" onClick={() => setResForm(!resForm)}>
-          Return
-        </Button>
+      <div style={{textAlign: 'right'}}>
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Box sx={{display: 'flex'}}>
+              <Input
+                type="text"
+                placeholder="Add Title"
+                style={{  marginRight: "10px" }}
+                value={newReservation.title}
+                onChange={(e) =>
+                  setNewReservation({ ...newReservation, title: e.target.value })
+                }
+              />
+              <Checkbox
+                name='allDay'
+                value={newReservation.allDay}
+                onChange={() =>
+                  setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
+                }
+              />
+              <p>all day?</p>
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Box sx={{margin: '10px'}}>
+              <Box sx={{padding: '10px'}}>
+                <DatePicker
+                  required
+                  placeholderText="Start Time"
+                  showTimeSelect
+                  calendarContainer={MyContainer}
+                  selected={newReservation.start}
+                  onChange={(start) => setNewReservation({ ...newReservation, start })}
+                />
+              </Box>
+              <Box sx={{padding: '10px'}}>
+                <DatePicker
+                  placeholderText="End Time"
+                  showTimeSelect
+                  calendarContainer={MyContainer}
+                  selected={newReservation.end}
+                  onChange={(end) => setNewReservation({ ...newReservation, end })}
+                />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{textAlign: 'right'}}>
+              <Button variant="outlined" onClick={() => doAddReservation()}>
+                Confirm Reservation
+              </Button>
+              <Button variant="outlined" onClick={() => setResForm(!resForm)}>
+                Return
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -188,17 +206,18 @@ export default function CalendarShell(props) {
   return (
     <div>
       {buttonOptions}
-
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        titleAccessor="title"
-        allDayAccessor="allDay"
-        views={["month", "day", "week"]}
-        style={{ height: 500, margin: "50px" }}
-      />
+      <Box sx={{backgroundColor: 'white'}}>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          titleAccessor="title"
+          allDayAccessor="allDay"
+          views={["month", "day", "week"]}
+          style={{ height: 500, margin: "50px" }}
+          />
+      </Box>
     </div>
   );
 }

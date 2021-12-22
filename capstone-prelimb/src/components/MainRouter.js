@@ -14,8 +14,9 @@ export default function MainRouter(){
 
     return(
       <Router>
+      <Container maxwidth='sm'>
       <Navbar />
-      <Container maxwidth='lg'>
+      </Container>
         <Routes>
           <Route path='/facility' element={<FacilityControl />} />
           <Route path='/crafts' element={<CraftControl />} />
@@ -23,7 +24,6 @@ export default function MainRouter(){
           <Route path='/user' element={<UserControl/>} />
           <Route path='/' element={<Home/>} />
         </Routes>
-      </Container>
     </Router>
   )
 

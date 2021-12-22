@@ -1,5 +1,5 @@
 
-
+import { Container, Box } from "@mui/material";
 import FacilityList from './FacilityList';
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
@@ -71,11 +71,15 @@ export default function FacilityControl(){
 
   return(
     <div>
+      <Container>
       {formVisible}
-      <Button variant="outlined" onClick={() => setFacilityForm(!facilityForm)}>
-        Add Facility
-      </Button>
-      <FacilityList />
+      <Box sx={{textAlign: 'center'}}>
+        <Button variant="outlined" onClick={() => setFacilityForm(!facilityForm)}>
+          Add Facility
+        </Button>
+      </Box>
+        <FacilityList />
+      </Container>
     </div>
   )
 }
