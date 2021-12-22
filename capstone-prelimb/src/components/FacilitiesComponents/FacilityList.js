@@ -29,7 +29,7 @@ export default function FacilityList(props) {
   return (
     <div>
       {status === "loading" ? <div>loading...</div> : null}
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {filteredData?.map((d, index) => {
           return (
             <Grid key={index} item xs={12}>

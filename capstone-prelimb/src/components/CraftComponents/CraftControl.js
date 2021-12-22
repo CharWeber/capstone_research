@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import CalendarShell from '../UtilityComponents/CalendarShell';
 import FacilityList from '../FacilitiesComponents/FacilityList';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 
 export default function CraftControl(){
@@ -18,9 +18,15 @@ export default function CraftControl(){
 
   return(
     <div>
-      <FacilityList department="craft" onClickFacility={handleChangeSelectedFacility}/>
-      {allButton}
-      <CalendarShell department='craft' facilityId={selectedFacilityId} />
+      <Grid container spacing={1} columns={16}>
+        <Grid item xs={4}>
+          <FacilityList department="craft" onClickFacility={handleChangeSelectedFacility}/>
+        </Grid>
+        <Grid item xs={11}>
+          <CalendarShell department="craft" facilityId={selectedFacilityId} />
+          {allButton}
+        </Grid>
+      </Grid>
     </div>
   )
 }

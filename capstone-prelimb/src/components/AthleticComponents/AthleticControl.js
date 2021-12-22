@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import CalendarShell from '../UtilityComponents/CalendarShell';
 import FacilityList from '../FacilitiesComponents/FacilityList';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 
 
 export default function AthleticControl(){
@@ -22,9 +22,15 @@ export default function AthleticControl(){
 
   return(
     <div>
-      <FacilityList department="athletic" onClickFacility={handleChangeSelectedFacility}/>
-      {allButton}
-      <CalendarShell department="athletic" facilityId={selectedFacilityId} />
+      <Grid container spacing={1} columns={16}>
+        <Grid item xs={4}>
+          <FacilityList department="athletic" onClickFacility={handleChangeSelectedFacility}/>
+        </Grid>
+        <Grid item xs={11}>
+          <CalendarShell department="athletic" facilityId={selectedFacilityId} />
+          {allButton}
+        </Grid>
+      </Grid>
     </div>
   )
 }
