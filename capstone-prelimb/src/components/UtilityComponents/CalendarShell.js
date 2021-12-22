@@ -2,11 +2,20 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { Button, Input, Checkbox, Grid, Box, Card, CardContent, CircularProgress } from "@mui/material";
+import {
+  Button,
+  Input,
+  Checkbox,
+  Grid,
+  Box,
+  Card,
+  CardContent,
+  CircularProgress,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
-import DatePicker, {CalendarContainer} from "react-datepicker";
+import DatePicker, { CalendarContainer } from "react-datepicker";
 import { collection, addDoc } from "firebase/firestore";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -23,12 +32,20 @@ const localizer = dateFnsLocalizer({
 });
 const MyContainer = ({ className, children }) => {
   return (
-    <div style={{ padding: "16px", background: "#216ba5", color: "#fff", zIndex: '2' }}>
+    <div
+      style={{
+        padding: "16px",
+        background: "#216ba5",
+        color: "#fff",
+        zIndex: "2",
+      }}
+    >
       <CalendarContainer className={className}>
         <div style={{ position: "relative" }}>{children}</div>
       </CalendarContainer>
     </div>
-  );};
+  );
+};
 
 export default function CalendarShell(props) {
   const { facilityId, department } = props;
@@ -45,9 +62,8 @@ export default function CalendarShell(props) {
     createdBy: user?.data ? user.data.uid : null,
     facilityId: facilityId ? facilityId : "general",
     resource: null,
-    department: department ? department : null
+    department: department ? department : null,
   });
-
 
   useEffect(() => {
     setNewReservation({
@@ -57,7 +73,7 @@ export default function CalendarShell(props) {
       allDay: false,
       createdBy: user.data ? user.data.uid : null,
       facilityId: facilityId ? facilityId : "general",
-      department: department ? department : null
+      department: department ? department : null,
     });
   }, [facilityId, user, department]);
 
@@ -82,25 +98,25 @@ export default function CalendarShell(props) {
       end: "",
       createdBy: user.data ? user.data.uid : null,
       facilityId: facilityId ? facilityId : "general",
-      department: department ? department : null
+      department: department ? department : null,
     });
   };
 
   if (status === "loading") {
-    return <CircularProgress color='secondary' />;
+    return <CircularProgress color="secondary" />;
   }
 
-  
-  if (department){  
-    departmentData = data?.filter(d => d.department === department);
+  if (department) {
+    departmentData = data?.filter((d) => d.department === department);
   } else {
-    departmentData = data
+    departmentData = data;
   }
-
 
   if (facilityId !== null) {
-  let tempArray = []
-    const filteredData = departmentData?.filter((d) => d.facilityId === facilityId)
+    let tempArray = [];
+    const filteredData = departmentData?.filter(
+      (d) => d.facilityId === facilityId
+    );
     filteredData.forEach((doc) => {
       const reservation = {
         title: doc.title,
@@ -110,9 +126,10 @@ export default function CalendarShell(props) {
         facilityId: doc.facilityId,
         resource: doc.resource,
         NO_ID_FIELD: doc.NO_ID_FIELD,
-        allDay: doc.allDay
-      }
-    tempArray.push(reservation)})
+        allDay: doc.allDay,
+      };
+      tempArray.push(reservation);
+    });
     events = tempArray;
   } else {
     let tempArray = [];
@@ -125,7 +142,7 @@ export default function CalendarShell(props) {
         facilityId: doc.facilityId,
         resource: doc.resource,
         NO_ID_FIELD: doc.NO_ID_FIELD,
-        allDay: doc.allDay
+        allDay: doc.allDay,
       };
       tempArray.push(reservation);
     });
@@ -134,93 +151,113 @@ export default function CalendarShell(props) {
 
   if (user.data && !resForm && facilityId) {
     buttonOptions = (
-        <Box sx={{padding: '10px', width:'fit-content', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', marginLeft: '80%'}}>
-          <Button variant="outlined" onClick={() => setResForm(!resForm)}>
-            Add Reservation
-          </Button>
-        </Box>
+      <Box
+        sx={{
+          padding: "10px",
+          width: "fit-content",
+          borderColor: "994B68",
+          borderStyle: "solid",
+          backgroundColor: "#E0C9D1",
+          borderRadius: "5px",
+          margin: "5%",
+          marginTop: '100px'
+        }}
+      >
+        <Button variant="outlined" onClick={() => setResForm(!resForm)}>
+          Add Reservation
+        </Button>
+      </Box>
     );
   } else if (user.data && resForm) {
     buttonOptions = (
-      <div style={{padding: '10px', width: 'fit-content', height: 'fit-content', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', textAlign: 'center'}}>
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Box sx={{display: 'block'}}>
-              <Input
-                type="text"
-                placeholder="Add Title"
-                style={{  marginRight: "10px" }}
-                value={newReservation.title}
-                onChange={(e) =>
-                  setNewReservation({ ...newReservation, title: e.target.value })
-                }
-              />
-              <p>
-              <Checkbox
-                name='allDay'
-                value={newReservation.allDay}
-                onChange={() =>
-                  setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
-                }
-              />
-              all day?</p>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box sx={{margin: '10px'}}>
-              <Box sx={{padding: '10px'}}>
-                <DatePicker
-                  required
-                  placeholderText="Start Time"
-                  showTimeSelect
-                  calendarContainer={MyContainer}
-                  selected={newReservation.start}
-                  onChange={(start) => setNewReservation({ ...newReservation, start })}
-                />
-              </Box>
-              <Box sx={{padding: '10px'}}>
-                <DatePicker
-                  placeholderText="End Time"
-                  showTimeSelect
-                  calendarContainer={MyContainer}
-                  selected={newReservation.end}
-                  onChange={(end) => setNewReservation({ ...newReservation, end })}
-                />
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{textAlign: 'right', justifyContent: 'even'}}>
-              <Button variant="outlined" onClick={() => doAddReservation()}>
-                Confirm Reservation
-              </Button>
-              <Button variant="outlined" onClick={() => setResForm(!resForm)}>
-                Return
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+      <div
+        style={{
+          padding: "10px",
+          width: "fit-content",
+          height: "fit-content",
+          borderColor: "994B68",
+          borderStyle: "solid",
+          backgroundColor: "#E0C9D1",
+          borderRadius: "5px",
+          margin: "10px",
+          textAlign: "center",
+        }}
+      >
+        <Input
+          type="text"
+          placeholder="Add Title"
+          style={{ marginRight: "10px" }}
+          value={newReservation.title}
+          onChange={(e) =>
+            setNewReservation({ ...newReservation, title: e.target.value })
+          }
+        />
+        <p>
+          <Checkbox
+            name="allDay"
+            value={newReservation.allDay}
+            onChange={() =>
+              setNewReservation({
+                ...newReservation,
+                allDay: !newReservation.allDay,
+              })
+            }
+          />
+          all day?
+        </p>
+
+        <DatePicker
+          required
+          placeholderText="Start Time"
+          showTimeSelect
+          calendarContainer={MyContainer}
+          selected={newReservation.start}
+          onChange={(start) => setNewReservation({ ...newReservation, start })}
+        />
+
+        <DatePicker
+          placeholderText="End Time"
+          showTimeSelect
+          calendarContainer={MyContainer}
+          selected={newReservation.end}
+          onChange={(end) => setNewReservation({ ...newReservation, end })}
+        />
+
+        <Box sx={{ textAlign: "right", justifyContent: "even" }}>
+          <Button variant="outlined" onClick={() => doAddReservation()}>
+            Confirm Reservation
+          </Button>
+          <Button variant="outlined" onClick={() => setResForm(!resForm)}>
+            Return
+          </Button>
+        </Box>
       </div>
     );
   }
 
   return (
     <div>
-      <Card sx={{backgroundColor: 'white', marginRight: '5%', marginTop: '5%'}}>
-        <CardContent>
-          {buttonOptions}
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            titleAccessor="title"
-            allDayAccessor="allDay"
-            views={["month", "day", "week"]}
-            style={{ height: 500, margin: "50px" }}
-            />
-        </CardContent>
-      </Card>
+      <Grid container spacing={1} columns={16}>
+        <Grid item xs={13}>
+          <Card
+            sx={{ backgroundColor: "white", margin: "5%" }}
+            >
+            <CardContent>
+              <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                titleAccessor="title"
+                allDayAccessor="allDay"
+                views={["month", "day", "week"]}
+                style={{ height: 500, margin: "50px" }}
+                />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>{buttonOptions}</Grid>
+      </Grid>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid, Box, Container} from '@mui/material';
+import { Box, Container, Typography} from '@mui/material';
 
 
 
@@ -10,13 +10,13 @@ export default function Home() {
   return(
     <Container>
       <div>
-        <Grid container spacing={2} >
-          <Grid item>
-            <Box sx={{height: '100px', width: '100%'}}>
-              <h1>Home page</h1>
+
+            <Box sx={{height: '100px', width: '100%', marginTop: '5%'}}>
+              <Typography variant='h1' component='div'>
+                Home Court
+              </Typography>
             </Box>
-          </Grid>
-        </Grid>
+            <div id="box"/>
       </div>
     </Container>
   )

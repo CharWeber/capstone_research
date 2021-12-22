@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Checkbox } from "@mui/material";
+import { Button, Input, Checkbox, Divider, Card, CardContent, CardActions, Typography } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
 import { useFirestore, useFirestoreDocDataOnce } from "reactfire";
 import DatePicker, {CalendarContainer} from "react-datepicker";
@@ -21,7 +21,7 @@ const MyContainer = ({ className, children }) => {
 
 
 export default function ReservationDetail(props) {
-  const { reservationId, handleDelete } = props;
+  const { reservationId, handleDelete, onClickReturn } = props;
 
   const docRef = doc(useFirestore(), "reservations", reservationId);
   const { status, data } = useFirestoreDocDataOnce(docRef);
@@ -126,16 +126,23 @@ export default function ReservationDetail(props) {
   }
 
   return (
-    <div>
-      {data.title}
-      {data.start.toDate().toString()}
-      {data.end.toDate().toString()}
-      {data.allDay}
+    <Card sx={{padding: '10px', width: 'fit-content', minWidth: '30vw', height: '10%', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', textAlign: 'left'}}>
+    <CardContent>
+      <Typography variant='h5' component='div'>{data.title}</Typography>
+      <Divider />
+      <Typography variant='h6' component='div'>Begins: {data.start.toDate().toDateString() + ' at ' + data.start.toDate().toLocaleTimeString('en-US')}</Typography>
+      <Typography variant='h6' component='div'>Ends: {data.end.toDate().toDateString() + ' at ' + data.end.toDate().toLocaleTimeString('en-US')}</Typography>
       {formVisible}
+      <CardActions>
       <Button onClick={() => setResForm(!resForm)}>Edit</Button>
+      <Button variant="outlined" onClick={() => onClickReturn(null)}>
+        Return
+      </Button>
       <Button variant="contained" onClick={() =>handleDeleteReservation(reservationId)}>
         Delete Reservation
       </Button>
-    </div>
+      </CardActions>
+    </CardContent>
+  </Card>
   );
 }

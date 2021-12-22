@@ -31,7 +31,7 @@ if (user.data){
   if (selectedReservation === null){
     reservations = <ReservationList user={user} onClickReservation={handleChangeSelectedReservation} />
   } else{
-    reservations = <ReservationDetail user={user} reservationId={selectedReservation} handleDelete={doDeleteReservation} />
+    reservations = <ReservationDetail user={user} onClickReturn={handleChangeSelectedReservation} reservationId={selectedReservation} handleDelete={doDeleteReservation} />
   }
 }
 
