@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Button, Divider} from '@mui/material'
+import { Button, Divider, Card, CardContent, CardActions, Typography} from '@mui/material'
 
 
 
@@ -9,16 +9,18 @@ export default function Facility(props) {
   let buttonOptions = null;
 
   if (handleSelect !== null){
-    buttonOptions = <Button variant='contained'  onClick={() => handleSelect(props.id)}>See Reservations</Button>
+    buttonOptions = <Button   onClick={() => handleSelect(props.id)}>See Reservations</Button>
   }
 
   return(
     <div>
-      <Box sx={{padding: '10px', width: '100%', height: '10%', backgroundColor: '#7EB0CB', borderRadius: '5px', margin: '10px', textAlign: 'center'}}>
-        {props.name}
-        <Divider>~~~</Divider>
-        {buttonOptions}
-      </Box>
+      <Card sx={{padding: '10px', width: '100%', height: '10%', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', textAlign: 'center'}}>
+        <CardContent>
+          <Typography variant='h6' component='div'>{props.name}</Typography>
+          <Divider />
+          <CardActions>{buttonOptions}</CardActions>
+        </CardContent>
+      </Card>
     </div>
   )
 }

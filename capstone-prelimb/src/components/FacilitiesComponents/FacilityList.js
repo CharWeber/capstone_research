@@ -3,6 +3,7 @@ import Facility from "./Facility";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection } from "firebase/firestore";
 import { Grid } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function FacilityList(props) {
@@ -28,8 +29,8 @@ export default function FacilityList(props) {
 
   return (
     <div>
-      {status === "loading" ? <div>loading...</div> : null}
-      <Grid container spacing={1}>
+      {status === "loading" ? <CircularProgress color='secondary' /> : null}
+      <Grid container >
         {filteredData?.map((d, index) => {
           return (
             <Grid key={index} item xs={12}>

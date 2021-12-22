@@ -4,7 +4,7 @@ import { useSigninCheck, useUser } from "reactfire";
 import SignInForm from "./UserComponents/SignInForm";
 import SignOutButton from "./UserComponents/SignOutButton";
 import SignUpForm from "./UserComponents/SignUpForm";
-import Button from '@mui/material/Button'
+import {Button, Typography, CircularProgress, Divider} from '@mui/material'
 
 
 export default function User(){
@@ -12,28 +12,34 @@ export default function User(){
   const [signUp, setSignUp] = useState(false);
   const {status, data: SignInCheckResult} = useSigninCheck();
   const user = useUser();
-  let reservations = null;
+
 
 
   
   if (status === 'loading'){
-    return <span>Loading...</span>
+    return <CircularProgress color='secondary' />
   }
 
   
   if (SignInCheckResult.signedIn === true){
     return(
-      <div>
-        <p>welcome {user.data?.email}</p>
+      <div style={{textAlign: 'center'}}>
+        <Typography variant='h4' component='div'>
+          welcome {user.data?.email}
+        </Typography>
         <SignOutButton />
-        <hr />
-        {reservations}
+        <Divider />
+        <Typography variant='body' component='div'>Your Reservations</Typography>
+        
+
       </div>
       )
     } else if (SignInCheckResult.signedIn === false  && signUp === false){
       return(
         <div>
-          <h2>Log in</h2>
+          <Typography variant='h4' component='div'>
+            Log in
+          </Typography>
           <SignInForm />
           <Button variant='outlined' onClick={() => setSignUp(!signUp)}>Register</Button>
         </div>
@@ -41,7 +47,9 @@ export default function User(){
     } else{
       return (
         <div>
-          <h2>Register Email</h2>
+          <Typography variant='h4' component='div'>
+            Register
+          </Typography>      
           <SignUpForm />
           <Button variant='outlined' onClick={() => setSignUp(!signUp)}>Sign In</Button>
         </div>

@@ -6,6 +6,7 @@ import { useFirestore, useUser } from "reactfire";
 import {  deleteDoc, doc } from "firebase/firestore";
 
 
+
 export default function UserControl(){
 
   const user = useUser();
@@ -18,7 +19,6 @@ export default function UserControl(){
     setSelectedReservation(id)
   }
   const doDeleteReservation = async (id) =>{
-    console.log(id)
     setSelectedReservation(null)
     try{
       await deleteDoc(doc(firestore, 'reservations', id))

@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { Button, Input, Checkbox, Grid, Box } from "@mui/material";
+import { Button, Input, Checkbox, Grid, Box, Card, CardContent, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useUser, useFirestore, useFirestoreCollectionData } from "reactfire";
@@ -87,7 +87,7 @@ export default function CalendarShell(props) {
   };
 
   if (status === "loading") {
-    return <div>loading...</div>;
+    return <CircularProgress color='secondary' />;
   }
 
   
@@ -134,18 +134,18 @@ export default function CalendarShell(props) {
 
   if (user.data && !resForm && facilityId) {
     buttonOptions = (
-      <Box sx={{margin: 'auto', padding: '10px', textAlign: 'right'}}>
-        <Button variant="outlined" onClick={() => setResForm(!resForm)}>
-          Add Reservation
-        </Button>
-      </Box>
+        <Box sx={{padding: '10px', width:'fit-content', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', marginLeft: '80%'}}>
+          <Button variant="outlined" onClick={() => setResForm(!resForm)}>
+            Add Reservation
+          </Button>
+        </Box>
     );
   } else if (user.data && resForm) {
     buttonOptions = (
-      <div style={{textAlign: 'right'}}>
+      <div style={{padding: '10px', width: 'fit-content', height: 'fit-content', borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', borderRadius: '5px', margin: '10px', textAlign: 'center'}}>
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <Box sx={{display: 'flex'}}>
+            <Box sx={{display: 'block'}}>
               <Input
                 type="text"
                 placeholder="Add Title"
@@ -155,6 +155,7 @@ export default function CalendarShell(props) {
                   setNewReservation({ ...newReservation, title: e.target.value })
                 }
               />
+              <p>
               <Checkbox
                 name='allDay'
                 value={newReservation.allDay}
@@ -162,7 +163,7 @@ export default function CalendarShell(props) {
                   setNewReservation({ ...newReservation, allDay: !newReservation.allDay })
                 }
               />
-              <p>all day?</p>
+              all day?</p>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -189,7 +190,7 @@ export default function CalendarShell(props) {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <Box sx={{textAlign: 'right'}}>
+            <Box sx={{textAlign: 'right', justifyContent: 'even'}}>
               <Button variant="outlined" onClick={() => doAddReservation()}>
                 Confirm Reservation
               </Button>
@@ -205,19 +206,21 @@ export default function CalendarShell(props) {
 
   return (
     <div>
-      {buttonOptions}
-      <Box sx={{backgroundColor: 'white'}}>
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          titleAccessor="title"
-          allDayAccessor="allDay"
-          views={["month", "day", "week"]}
-          style={{ height: 500, margin: "50px" }}
-          />
-      </Box>
+      <Card sx={{backgroundColor: 'white', marginRight: '5%', marginTop: '5%'}}>
+        <CardContent>
+          {buttonOptions}
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            titleAccessor="title"
+            allDayAccessor="allDay"
+            views={["month", "day", "week"]}
+            style={{ height: 500, margin: "50px" }}
+            />
+        </CardContent>
+      </Card>
     </div>
   );
 }

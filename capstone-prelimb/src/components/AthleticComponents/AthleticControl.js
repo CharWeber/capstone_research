@@ -25,10 +25,10 @@ export default function AthleticControl(){
       <Grid container spacing={1} columns={16}>
         <Grid item xs={3}>
           <FacilityList department="athletic" onClickFacility={handleChangeSelectedFacility}/>
+          {allButton}
         </Grid>
         <Grid item xs={13}>
           <CalendarShell department="athletic" facilityId={selectedFacilityId} />
-          {allButton}
         </Grid>
       </Grid>
     </div>

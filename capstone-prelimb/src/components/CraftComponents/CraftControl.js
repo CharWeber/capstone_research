@@ -13,18 +13,18 @@ export default function CraftControl(){
   }
 
   if (selectedFacilityId !== null){
-    allButton = <Button onClick={() => handleChangeSelectedFacility(null)}>See All Reservations</Button>
+    allButton = <Button style={{marginLeft: '15px'}} variant='contained' onClick={() => handleChangeSelectedFacility(null)}>See All Reservations</Button>
   }
 
   return(
     <div>
       <Grid container spacing={1} columns={16}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <FacilityList department="craft" onClickFacility={handleChangeSelectedFacility}/>
-        </Grid>
-        <Grid item xs={11}>
-          <CalendarShell department="craft" facilityId={selectedFacilityId} />
           {allButton}
+        </Grid>
+        <Grid item xs={13}>
+          <CalendarShell department="craft" facilityId={selectedFacilityId} />
         </Grid>
       </Grid>
     </div>

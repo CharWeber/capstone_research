@@ -2,6 +2,7 @@ import React from "react";
 import Reservation from "./Reservation";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection } from "firebase/firestore";
+import {Grid} from '@mui/material';
 
 
 export default function ReservationList(props) {
@@ -49,19 +50,23 @@ export default function ReservationList(props) {
 
   return (
     <div>
-      
-      {resArray.map((d) => {
-        return (
-          <Reservation
-            key={d.NO_ID_FIELD}
-            id={d.NO_ID_FIELD}
-            title={d.title}
-            start={d.start}
-            end={d.end}
-            handleSelect={selectReservation}
-          />
-        );
-      })}
+<Grid container spacing={2}>
+  
+  {resArray.map((d) => {
+    return (
+      <Grid item xs={4}>
+        <Reservation
+          key={d.NO_ID_FIELD}
+          id={d.NO_ID_FIELD}
+          title={d.title}
+          start={d.start}
+          end={d.end}
+          handleSelect={selectReservation}
+        />
+      </Grid>
+    );
+  })}
+</Grid>
     </div>
   );
 }

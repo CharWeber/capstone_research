@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Container } from "@mui/material";
 import Home from "./Home";
 import FacilityControl from "./FacilitiesComponents/FacilityControl";
 import AthleticControl from "./AthleticComponents/AthleticControl";
@@ -14,9 +13,9 @@ export default function MainRouter(){
 
     return(
       <Router>
-      <Container maxwidth='sm'>
+    
       <Navbar />
-      </Container>
+      
         <Routes>
           <Route path='/facility' element={<FacilityControl />} />
           <Route path='/crafts' element={<CraftControl />} />
