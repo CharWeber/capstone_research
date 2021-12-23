@@ -1,5 +1,6 @@
 import React from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Button } from "@mui/material";
 
 function SignInForm() {
   const handleSubmit = async (e) => {
@@ -29,9 +30,9 @@ function SignInForm() {
           placeholder="password"
           style={{ display: "block", margin: "10px" }}
         />
-        <button type="submit" style={{ margin: "10px" }}>
+        <Button variant='contained' type="submit" style={{ margin: "10px" }}>
           LOGIN
-        </button>
+        </Button>
       </form>
     </div>
   );

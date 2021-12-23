@@ -4,6 +4,7 @@ import ReservationList from '../UtilityComponents/ReservationList';
 import User from '../User';
 import { useFirestore, useUser } from "reactfire";
 import {  deleteDoc, doc } from "firebase/firestore";
+import { Container } from '@mui/material';
 
 
 
@@ -41,8 +42,10 @@ if (user.data){
 
   return(
     <div>
-      <User />
-      {reservations}
+      <Container>
+        <User />
+        {reservations}
+      </Container>
     </div>
   )
 }

@@ -36,7 +36,7 @@ export default function User(){
       )
     } else if (SignInCheckResult.signedIn === false  && signUp === false){
       return(
-        <div>
+        <div >
           <Typography variant='h4' component='div'>
             Log in
           </Typography>
@@ -46,7 +46,7 @@ export default function User(){
       )
     } else{
       return (
-        <div>
+        <div >
           <Typography variant='h4' component='div'>
             Register
           </Typography>      
