@@ -43,6 +43,7 @@ export default function Navbar() {
       <IconButton href="/"><HomeIcon /></IconButton>
       <Button href="/athletics">Athletics</Button>
       <Button href="/crafts">Crafts</Button>
+      <Button href="/theatre">Theatre</Button>
       {userInfo}
     </Stack>
   );

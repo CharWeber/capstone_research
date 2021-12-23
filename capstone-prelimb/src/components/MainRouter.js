@@ -5,6 +5,7 @@ import FacilityControl from "./FacilitiesComponents/FacilityControl";
 import AthleticControl from "./AthleticComponents/AthleticControl";
 import CraftControl from "./CraftComponents/CraftControl";
 import UserControl from "./UserComponents/UserControl";
+import TheatreControl from './TheatreComponents/TheatreControl'
 import Navbar from "./Navbar";
 
 
@@ -18,6 +19,7 @@ export default function MainRouter(){
       
         <Routes>
           <Route path='/facility' element={<FacilityControl />} />
+          <Route path='/theatre' element={<TheatreControl />} />
           <Route path='/crafts' element={<CraftControl />} />
           <Route path='/athletics' element={<AthleticControl />} />
           <Route path='/user' element={<UserControl/>} />

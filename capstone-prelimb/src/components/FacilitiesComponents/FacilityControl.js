@@ -53,14 +53,14 @@ export default function FacilityControl(){
         <select
           id="deaprtment"
           name="department"
-          defaultValue='general'
+          defaultValue='athletic'
           onChange={(e) =>
             setNewFacility({ ...newFacility, department: e.target.value })
           }
         >
           <option value="athletic">Athletic</option>
           <option value="craft">Crafts</option>
-          <option value="general">General Use</option>
+          <option value="theatre">Theatre</option>
         </select>
         <Button variant="contained" onClick={async () => handleNewFacility()}>
           ADD
