@@ -19,7 +19,9 @@
     "react-scripts": "4.0.3",
     "reactfire": "^4.2.1",
     "web-vitals": "^1.1.2",
-    "matter-js": "0.14.0"
+    "matter-js": "0.14.0",
+    "date-fns": "^2.27.0",
+    "react-big-calendar": "^0.38.1"
   },
   "scripts": {
     "start": "react-scripts start",

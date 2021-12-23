@@ -17,7 +17,7 @@ class PlayRoom extends React.Component {
       MouseConstraint = Matter.MouseConstraint;
 
     var engine = Engine.create({
-      // positionIterations: 20
+      
     });
 
 
@@ -32,14 +32,13 @@ class PlayRoom extends React.Component {
     });
 
     World.add(engine.world, [
-      // walls
+
       Bodies.rectangle(200, 0, 10000, 50, { isStatic: true }),
       Bodies.rectangle(200, 600, 10000, 50, { isStatic: true }),
       
     ]);
 
 
-    // add mouse control
     var mouse = Mouse.create(render.canvas),
       mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,

@@ -39,12 +39,14 @@ export default function Navbar() {
   }
 
   return (
-    <Stack direction="row" spacing={2} style={{borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', marginTop: '3vh'}}>
-      <IconButton href="/"><HomeIcon /></IconButton>
-      <Button href="/athletics">Athletics</Button>
-      <Button href="/crafts">Crafts</Button>
-      <Button href="/theatre">Theatre</Button>
-      {userInfo}
-    </Stack>
+    <div>
+      <Stack direction="row" spacing={2} style={{borderColor: '994B68', borderStyle: 'solid', backgroundColor: '#E0C9D1', marginTop: '3vh'}}>
+        <IconButton href="/"><HomeIcon /></IconButton>
+        <Button href="/athletics">Athletics</Button>
+        <Button href="/crafts">Crafts</Button>
+        <Button href="/theatre">Theatre</Button>
+        {userInfo}
+      </Stack>
+    </div>
   );
 }
