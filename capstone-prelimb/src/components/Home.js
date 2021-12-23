@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Container, Typography} from '@mui/material';
+import PlayRoom from "./UtilityComponents/PlayRoom";
 
 
 
 
 export default function Home() {
-
-
+ 
   return(
     <Container>
       <div>
@@ -16,8 +16,8 @@ export default function Home() {
                 Home Court
               </Typography>
             </Box>
-            <div id="box"/>
       </div>
+      <PlayRoom />
     </Container>
   )
 
